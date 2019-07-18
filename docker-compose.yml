@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  backend:
+    image: asadmanzoor93/backend:backend
+    volumes:
+      - ./backend:/app/backend
+    ports:
+      - "8000:8000"
+    stdin_open: true
+    tty: true
+    command: python3 manage.py runserver 0.0.0.0:8000
+  magazine:
+    image: asadmanzoor93/magazine:magazine
+    volumes:
+      - ./magazine:/app
+      # One-way volume to use node_modules from inside image
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    command: npm start
