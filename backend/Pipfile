@@ -9,6 +9,9 @@ djangorestframework = "*"
 django-cors-headers = "*"
 dj-rest-auth = "*"
 django-allauth = "*"
+dj-database-url = "*"
+psycopg2-binary = "*"
+environs = "*"
 
 [dev-packages]
 
