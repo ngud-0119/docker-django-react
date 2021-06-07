@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import sys
 from environs import Env
 
 import psycopg2
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'graphene_django',
 
     # local
     'bugs.apps.BugsConfig',
@@ -88,17 +90,36 @@ WSGI_APPLICATION = 'bug_tracker_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-DATABASES = {
-    'default': {
-
+if 'test' in sys.argv:
+    # Configuration for test database
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'd3a5usv42l4c5n',
+            'USER': 'lxkujszjlntvaj',
+            'PASSWORD': env.str("DATABASE_PASSWORD_TEST"),
+            'HOST': 'ec2-54-84-238-74.compute-1.amazonaws.com',
+            'PORT': 5432,
+            'TEST': {
+                'NAME': 'd3a5usv42l4c5n',  # This is an important entry
+            }
+        }
     }
-}
-DATABASES['default'] = dj_database_url.config(
-    conn_max_age=600, ssl_require=True)
-
-DATABASE_URL = env.str("DATABASE_URL")
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-
+else:
+  # Default configuration
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'd3a8ur2lp01ooe',
+            'USER': 'ffvpfvcmypptto',
+            'PASSWORD': env.str("DATABASE_PASSWORD"),
+            'HOST': 'ec2-34-232-191-133.compute-1.amazonaws.com',
+            'PORT': 5432,
+            'TEST': {
+                'NAME': 'd3a8ur2lp01ooe',
+            }
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

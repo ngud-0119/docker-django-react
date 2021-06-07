@@ -12,6 +12,7 @@ django-allauth = "*"
 dj-database-url = "*"
 psycopg2-binary = "*"
 environs = "*"
+graphene-django = "*"
 
 [dev-packages]
 
